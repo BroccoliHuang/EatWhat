@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="D:\GoogleDrive\workspace\Android\EatWhat\app\build\intermediates\exploded-aar\com.android.support\design\22.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="1821601ddbec5ff125653097812823388700af74">
+        <dex dex="D:\GoogleDrive\workspace\Android\EatWhat\app\build\intermediates\pre-dexed\release\com.android.support-design-22.2.1_5146ec0d0cdd2a31bd3545c92a86c4577e4da24e.jar" />
+    </item>
+    <item
+        jar="D:\GoogleDrive\workspace\Android\EatWhat\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.1\jars\libs\internal_impl-22.2.1.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="c471eaaba13ff64f6e0383d1c30a9cdc9a97efeb">
+        <dex dex="D:\GoogleDrive\workspace\Android\EatWhat\app\build\intermediates\pre-dexed\release\internal_impl-22.2.1_5b5949f39d76e8dabbc31e87102b81f13b9eeb6c.jar" />
+    </item>
+    <item
+        jar="D:\ADT\sdk\extras\android\m2repository\com\android\support\support-annotations\22.2.1\support-annotations-22.2.1.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="61a0ff5c29295ec56d7e0bd3d25d95dbf71b4b2b">
+        <dex dex="D:\GoogleDrive\workspace\Android\EatWhat\app\build\intermediates\pre-dexed\release\support-annotations-22.2.1_c6fd47d18f92a2b572879e701e48bed26528529a.jar" />
+    </item>
+    <item
+        jar="D:\GoogleDrive\workspace\Android\EatWhat\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="4486e953d1f35f8ccab098b1dd67146366d5f731">
+        <dex dex="D:\GoogleDrive\workspace\Android\EatWhat\app\build\intermediates\pre-dexed\release\com.android.support-appcompat-v7-22.2.1_8f873f432ea60d03a45985d5fc5efec18bd1c2b4.jar" />
+    </item>
+    <item
+        jar="D:\GoogleDrive\workspace\Android\EatWhat\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="f8efd0096475e0daf054267b61544e10dc776503">
+        <dex dex="D:\GoogleDrive\workspace\Android\EatWhat\app\build\intermediates\pre-dexed\release\com.android.support-support-v4-22.2.1_e3d7264a293f9f4d2915da7897380e5ecf93e08c.jar" />
+    </item>
+
+</items>
