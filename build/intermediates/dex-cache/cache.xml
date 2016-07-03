@@ -9,13 +9,6 @@
         <dex dex="D:\GoogleDrive\workspace\Android\EatWhat\app\build\intermediates\pre-dexed\release\com.android.support-design-22.2.1_5146ec0d0cdd2a31bd3545c92a86c4577e4da24e.jar" />
     </item>
     <item
-        jar="D:\GoogleDrive\workspace\Android\EatWhat\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.1\jars\libs\internal_impl-22.2.1.jar"
-        jumboMode="false"
-        revision="23.0.3"
-        sha1="c471eaaba13ff64f6e0383d1c30a9cdc9a97efeb">
-        <dex dex="D:\GoogleDrive\workspace\Android\EatWhat\app\build\intermediates\pre-dexed\release\internal_impl-22.2.1_5b5949f39d76e8dabbc31e87102b81f13b9eeb6c.jar" />
-    </item>
-    <item
         jar="D:\ADT\sdk\extras\android\m2repository\com\android\support\support-annotations\22.2.1\support-annotations-22.2.1.jar"
         jumboMode="false"
         revision="23.0.3"
@@ -28,6 +21,27 @@
         revision="23.0.3"
         sha1="4486e953d1f35f8ccab098b1dd67146366d5f731">
         <dex dex="D:\GoogleDrive\workspace\Android\EatWhat\app\build\intermediates\pre-dexed\release\com.android.support-appcompat-v7-22.2.1_8f873f432ea60d03a45985d5fc5efec18bd1c2b4.jar" />
+    </item>
+    <item
+        jar="D:\GoogleDrive\workspace\Android\EatWhat\app\build\intermediates\exploded-aar\de.hdodenhof\circleimageview\2.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="031e8b3ab2df4ab43b1017f84417d7e10dfbb8d2">
+        <dex dex="D:\GoogleDrive\workspace\Android\EatWhat\app\build\intermediates\pre-dexed\release\de.hdodenhof-circleimageview-2.0.0_34db3725ef981952eb619d0b47aae866e9ca2ece.jar" />
+    </item>
+    <item
+        jar="D:\GoogleDrive\workspace\Android\EatWhat\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.1\jars\libs\internal_impl-22.2.1.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="c471eaaba13ff64f6e0383d1c30a9cdc9a97efeb">
+        <dex dex="D:\GoogleDrive\workspace\Android\EatWhat\app\build\intermediates\pre-dexed\release\internal_impl-22.2.1_5b5949f39d76e8dabbc31e87102b81f13b9eeb6c.jar" />
+    </item>
+    <item
+        jar="D:\GoogleDrive\workspace\Android\EatWhat\libs\jsoup-1.9.2.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="edb0ddf3bd59dec0947f6eda75b6cf2264fc5e4b">
+        <dex dex="D:\GoogleDrive\workspace\Android\EatWhat\app\build\intermediates\pre-dexed\release\jsoup-1.9.2_9cacb68b91e13c355b65b968c42e38b881d443cc.jar" />
     </item>
     <item
         jar="D:\GoogleDrive\workspace\Android\EatWhat\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.1\jars\classes.jar"

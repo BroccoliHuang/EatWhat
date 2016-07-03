@@ -2,101 +2,162 @@ package tw.broccoli.eatwhat;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.concurrent.ExecutionException;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import tw.broccoli.eatwhat.util.HttpRequest;
 
 public class MainActivity extends Activity {
 
     private ListView listview;
-    private int[] images = new int[]{R.drawable.agnes, R.drawable.barney, R.drawable.bart, R.drawable.bart2, R.drawable.brokman, R.drawable.burns, R.drawable.comic_book_guy, R.drawable.flanders, R.drawable.grandpa, R.drawable.grandpa2, R.drawable.homer, R.drawable.jasper, R.drawable.lenny, R.drawable.lisa, R.drawable.lisa2, R.drawable.lovejoy, R.drawable.maggie, R.drawable.maggie_star, R.drawable.maggie2, R.drawable.marge, R.drawable.marge2, R.drawable.martin, R.drawable.milhouse, R.drawable.milhouse_face, R.drawable.milhouse2, R.drawable.moe, R.drawable.moe2, R.drawable.nelson, R.drawable.skinner, R.drawable.smithers, R.drawable.snowball, R.drawable.the_simpsons, R.drawable.whole_bart, R.drawable.whole_lisa, R.drawable.whole_maggie, R.drawable.whole_wiggum, R.drawable.wiggum, R.drawable.willie};
+    private AlertDialog mAlertDialog = null;
+//    private int[] images = new int[]{R.drawable.agnes, R.drawable.barney, R.drawable.bart, R.drawable.bart2, R.drawable.brokman, R.drawable.burns, R.drawable.comic_book_guy, R.drawable.flanders, R.drawable.grandpa, R.drawable.grandpa2, R.drawable.homer, R.drawable.jasper, R.drawable.lenny, R.drawable.lisa, R.drawable.lisa2, R.drawable.lovejoy, R.drawable.maggie, R.drawable.maggie_star, R.drawable.maggie2, R.drawable.marge, R.drawable.marge2, R.drawable.martin, R.drawable.milhouse, R.drawable.milhouse_face, R.drawable.milhouse2, R.drawable.moe, R.drawable.moe2, R.drawable.nelson, R.drawable.skinner, R.drawable.smithers, R.drawable.snowball, R.drawable.the_simpsons, R.drawable.whole_bart, R.drawable.whole_lisa, R.drawable.whole_maggie, R.drawable.whole_wiggum, R.drawable.wiggum, R.drawable.willie};
+    private int[] images = new int[]{R.drawable.agnes, R.drawable.barney, R.drawable.brokman, R.drawable.burns, R.drawable.comic_book_guy, R.drawable.flanders, R.drawable.grandpa, R.drawable.grandpa2, R.drawable.jasper, R.drawable.lenny, R.drawable.lisa, R.drawable.lisa2, R.drawable.lovejoy, R.drawable.maggie, R.drawable.maggie2, R.drawable.marge, R.drawable.marge2, R.drawable.martin, R.drawable.milhouse, R.drawable.milhouse_face, R.drawable.milhouse2, R.drawable.moe, R.drawable.moe2, R.drawable.skinner, R.drawable.smithers, R.drawable.snowball, R.drawable.wiggum, R.drawable.willie};
     private ArrayList<String> al_restaurant = null;
+    private boolean isNeedCircle = false;
+    private String html;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(!isOnline()){
+            Toast.makeText(MainActivity.this, "要開網路哦", Toast.LENGTH_LONG).show();
+            finish();
+            return;
+        }
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_main);
 
-        al_restaurant = new ArrayList<>();
-        al_restaurant.add("?角義大利麵");
-        al_restaurant.add("夫妻麵攤");
-        al_restaurant.add("鬍鬚張");
-        al_restaurant.add("獅子");
-        al_restaurant.add("黛西");
-        al_restaurant.add("番茄");
-        al_restaurant.add("拉亞");
-        al_restaurant.add("小肉圓");
-        al_restaurant.add("杏福小館");
-        al_restaurant.add("老闆臉臭雞肉飯");
-        al_restaurant.add("鵝肉飯");
-        al_restaurant.add("肉圓");
-        al_restaurant.add("藥膳");
-        al_restaurant.add("午號出口");
-        al_restaurant.add("手工麵");
-        al_restaurant.add("韓國手卷");
-        al_restaurant.add("花枝炒麵");
-        al_restaurant.add("路易莎");
-        al_restaurant.add("黑白切");
-        al_restaurant.add("六六");
-        al_restaurant.add("就是要吃早餐");
-        al_restaurant.add("萬家鄉");
-        al_restaurant.add("笑咪咪");
-        al_restaurant.add("萬家鄉隔壁早餐店");
-        al_restaurant.add("雙胞胎便當");
-        al_restaurant.add("厝邊");
-        al_restaurant.add("好粗");
-        al_restaurant.add("翻桌");
-        al_restaurant.add("奈野");
-        al_restaurant.add("享樂時間");
-        al_restaurant.add("IVY");
-        al_restaurant.add("基隆廟口");
-        al_restaurant.add("王漾");
-        al_restaurant.add("麥麥");
-        al_restaurant.add("麥麥隔壁早餐店");
-        al_restaurant.add("草地人");
-        al_restaurant.add("毅得");
-        al_restaurant.add("毅得附近越南料理");
-        al_restaurant.add("港式茶餐廳");
-        al_restaurant.add("八方雲集");
-        al_restaurant.add("四海遊龍");
+        choiceDialog();
+    }
 
-        listview = (ListView) findViewById(R.id.lv);
-        listview.setAdapter(new MyAdapter());
-        listview.setClipToPadding(false);
-        listview.setClipChildren(false);
-        listview.setOnScrollListener(new OnScrollListener() {
+    private void choiceDialog(){
+        if(mAlertDialog!=null && mAlertDialog.isShowing()) return;
+        try{
+            if(html==null || html.equals("")) html = new HttpRequest().execute("https://spreadsheets.google.com/tq?key=1bjXUQ0vqsptfVCpnhEX9jSPAfc5qbE0fdvpwa-glmK0").get().replace("/*O_o*/ google.visualization.Query.setResponse(", "").replace(");", "");
+            final JSONArray ja = new JSONObject(html).getJSONObject("table").getJSONArray("rows");
 
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-
+            ArrayList<String> category = new ArrayList<>();
+            for(int temp=0;temp<ja.getJSONObject(0).getJSONArray("c").length();temp++){
+                JSONObject jo = ja.getJSONObject(0).getJSONArray("c").optJSONObject(temp);
+                if(jo!=null && !jo.getString("v").equals("null")) category.add(jo.getString("v"));
             }
 
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                for (int i = 0; i < listview.getChildCount(); i++) {
-                    listview.getChildAt(i).invalidate();
-                }
-            }
-        });
+            al_restaurant = new ArrayList<>();
+
+            mAlertDialog = new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("要吃哪個分類呢")
+                    .setItems(category.toArray(new String[0]), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            try {
+                                for(int count=1; count < ja.length(); count++) {
+                                    JSONObject jo = ja.getJSONObject(count).getJSONArray("c").optJSONObject(which);
+                                    if(jo!=null) al_restaurant.add(jo.getString("v"));
+                                }
+
+                                listview = (ListView) findViewById(R.id.lv);
+                                listview.setAdapter(new MyAdapter());
+                                listview.setClipToPadding(false);
+                                listview.setClipChildren(false);
+                                listview.setOnScrollListener(new OnScrollListener() {
+                                    @Override
+                                    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+                                    }
+
+                                    @Override
+                                    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                                        for (int i = 0; i < listview.getChildCount(); i++) {
+                                            if (i == (int) (listview.getChildCount() / 2)) {
+//                                                listview.getChildAt(i).setBackgroundColor(Color.argb(192, 244, 215, 45));
+                                                listview.getChildAt(i).findViewById(R.id.donut).setVisibility(View.VISIBLE);
+                                                ((TextView) listview.getChildAt(i).findViewById(R.id.text)).setTextColor(Color.rgb(0, 0, 0));
+                                            } else {
+//                                                listview.getChildAt(i).setBackgroundColor(Color.argb(0, 255, 255, 255));
+                                                listview.getChildAt(i).findViewById(R.id.donut).setVisibility(View.GONE);
+                                                ((TextView) listview.getChildAt(i).findViewById(R.id.text)).setTextColor(Color.rgb(216, 185, 12));
+                                            }
+                                            listview.getChildAt(i).invalidate();
+                                        }
+                                    }
+                                });
+                            }catch(JSONException je){
+                                je.printStackTrace();
+                            }
+                        }
+                    })
+                    .setOnKeyListener(new DialogInterface.OnKeyListener() {
+                        @Override
+                        public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                            //press back
+                            if(keyCode==4) onBackPressed();
+                            return false;
+                        }
+                    })
+                    .setCancelable(false)
+                    .show();
+        }catch(InterruptedException ie){
+            ie.printStackTrace();
+        }catch(JSONException je){
+            je.printStackTrace();
+        }catch(ExecutionException ee){
+            ee.printStackTrace();
+        }
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(mAlertDialog!=null && mAlertDialog.isShowing()){
+            mAlertDialog.dismiss();
+            finish();
+        }else {
+            listview.setAdapter(null);
+            choiceDialog();
+        }
     }
 
     class MyAdapter extends BaseAdapter {
-
         @Override
         public int getCount() {
-            return 9999;
+            return 999;
         }
 
         @Override
@@ -117,10 +178,15 @@ public class MainActivity extends Activity {
 //                m.setBackgroundColor(Color.parseColor(randColor()));
                 convertView = m;
             }
-            ImageView imageView = (ImageView) convertView.findViewById(R.id.image);
-            imageView.setImageResource(images[position % images.length]);
+            CircleImageView circleImageView = (CircleImageView) convertView.findViewById(R.id.image);
+            circleImageView.setImageResource(images[position % images.length]);
+            if(isNeedCircle) {
+                circleImageView.setBorderColor(Color.rgb((int) (Math.random() * 256), (int) (Math.random() * 256), (int) (Math.random() * 256)));
+            }else{
+                circleImageView.setBorderWidth(0);
+            }
             TextView textView = (TextView) convertView.findViewById(R.id.text);
-            textView.setText(al_restaurant.get(position % al_restaurant.size()));
+            if(al_restaurant!=null && al_restaurant.size()>0) textView.setText(al_restaurant.get(position % al_restaurant.size()));
 
             return convertView;
         }
